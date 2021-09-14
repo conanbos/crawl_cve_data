@@ -10,7 +10,9 @@ from bs4 import BeautifulSoup
 from urllib.error import HTTPError
 from urllib.error import URLError
 import CNNVD_file
+import NVD_CVE_file
 import downloader
+import time
 
 sites = 'http://www.cnnvd.org.cn'
 url = sites + '/web/xxk/xmlDown.tag'
@@ -27,8 +29,10 @@ def create_bs(url):
         print(e)
         return None
 
-    bs = BeautifulSoup(html.read(), 'html.parser')
-    return bs
+    source = BeautifulSoup(html.read(), 'html.parser')#, from_encoding='utf-8')
+    print(source.original_encoding)
+    print(source)
+    return source
 
 
 
@@ -36,14 +40,27 @@ def create_bs(url):
 
 if __name__ == '__main__':
     #create beautifulsoupe and open site
-    bs = create_bs(url)
+    # bs = create_bs(url)
+    # includeUrl = ''
+    #
+    # urls = CNNVD_file.get_internallinks(bs, includeUrl)
+    # print('open site: '+sites+ ' successfully')
+    # print('Start downloading vulnerability library....')
+    # downloader.download(urls,33,54)
+    # time.sleep(0.2)
+    # print('All files get done')
+
+# open NVD CVE
+    sites = 'https://nvd.nist.gov'
+    url = sites + '/vuln/data-feeds'
+    bss = create_bs(url)
     includeUrl = ''
-
-    urls = CNNVD_file.get_internallinks(bs, includeUrl)
-    print('open site:http://www.cnnvd.org.cn successfully')
+    # urls.clear()
+    urls = NVD_CVE_file.get_internallinks(bss, includeUrl)
+    print('open site: ' + sites + ' successfully')
     print('Start downloading vulnerability library....')
-    downloader.download(urls)
-
+    downloader.download(urls,31,0)
+    time.sleep(0.2)
     print('All files get done')
 
 
