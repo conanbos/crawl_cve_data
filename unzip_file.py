@@ -18,5 +18,5 @@ def unzip(unzipfn):
     #
     # # 这样可以求得压缩率，保留小数点后两位
     # print('压缩率为{:.2f}'.format(azip_info.file_size / azip_info.compress_size))
-    azip.extractall('src/')
+    azip.extractall('data/')
     return unzipfn

@@ -7,13 +7,12 @@ __pycache__/
 .idea/
 
 
-
 # C extensions
 *.so
 
 # Distribution / packaging
 .Python
-src/
+data/
 build/
 develop-eggs/
 dist/
