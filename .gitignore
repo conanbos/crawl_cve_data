@@ -3,11 +3,17 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+#project pycharm
+.idea/
+
+
+
 # C extensions
 *.so
 
 # Distribution / packaging
 .Python
+src/
 build/
 develop-eggs/
 dist/
