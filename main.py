@@ -42,6 +42,7 @@ def get_CNNVD():
 
     while len(urls) <= 0:
         bs = create_bs(url)
+
         urls = cnnvd_file.get_internallinks(bs, includeurl)
         print("try connecting to site")
         time.sleep(0.2)
