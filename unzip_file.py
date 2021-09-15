@@ -8,7 +8,7 @@ def unzip(unzipfn):
     # 返回所有文件夹和文件
     flist=azip.namelist()
     for fn in flist:
-        print(fn + ' is unzipped')
+        print(fn + ' is unzipped\n')
     # # 压缩文件里bb文件夹下的aa.txt
     # azip_info = azip.getinfo()
     # # 原来文件大小

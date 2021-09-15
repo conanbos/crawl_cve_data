@@ -28,11 +28,9 @@ def create_bs(url):
     except URLError as e:
         print(e)
         return None
+    html_source = BeautifulSoup(html.read(), 'html.parser') #, from_encoding='utf-8')
 
-    source = BeautifulSoup(html.read(), 'html.parser')#, from_encoding='utf-8')
-    print(source.original_encoding)
-    print(source)
-    return source
+    return html_source
 
 
 
@@ -40,26 +38,34 @@ def create_bs(url):
 
 if __name__ == '__main__':
     #create beautifulsoupe and open site
-    # bs = create_bs(url)
-    # includeUrl = ''
-    #
-    # urls = CNNVD_file.get_internallinks(bs, includeUrl)
-    # print('open site: '+sites+ ' successfully')
-    # print('Start downloading vulnerability library....')
-    # downloader.download(urls,33,54)
-    # time.sleep(0.2)
-    # print('All files get done')
+    includeUrl = ''
+    urls = ''
+
+    while len(urls) <= 0:
+        bs = create_bs(url)
+        urls = CNNVD_file.get_internallinks(bs, includeUrl)
+        print("try connecting to site")
+        time.sleep(0.2)
+
+    print('open site: '+sites+ ' successfully')
+    print('Start downloading vulnerability library....')
+    downloader.download(urls,33,54)
+    time.sleep(0.2)
+    print('All files get done')
 
 # open NVD CVE
     sites = 'https://nvd.nist.gov'
     url = sites + '/vuln/data-feeds'
-    bss = create_bs(url)
-    includeUrl = ''
-    # urls.clear()
-    urls = NVD_CVE_file.get_internallinks(bss, includeUrl)
+    urls=''
+    while len(urls) <= 0:
+        bs = create_bs(url)
+        urls = NVD_CVE_file.get_internallinks(bs, sites)
+        print("try connecting to site")
+        time.sleep(0.2)
+
     print('open site: ' + sites + ' successfully')
     print('Start downloading vulnerability library....')
-    downloader.download(urls,31,0)
+    downloader.download(urls,44,0)
     time.sleep(0.2)
     print('All files get done')
 
