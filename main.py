@@ -49,7 +49,7 @@ def get_CNNVD():
 
     print('open site: ' + sites + ' successfully')
     print('start downloading vulnerability library....')
-    downloader.download(urls, 33, 54)
+    #downloader.download(urls, 54)
     time.sleep(0.2)
     print('all files get done')
 
@@ -61,19 +61,19 @@ def get_NVD_CVE():
     urls = ''
     while len(urls) <= 0:
         bs = create_bs(url)
-        urls = NVD_CVE_file.get_internallinks(bs, sites)
+        urls = NVD_CVE_file.get_internallinks(bs, sites,'all')
         print("try connecting to site")
-        time.sleep(0.2)
+        time.sleep(1)
 
     print('open site: ' + sites + ' successfully')
     print('Start downloading vulnerability library....')
-    downloader.download(urls, 44, 0)
+    downloader.download(urls,0)
     time.sleep(0.2)
     print('All files get done')
 
 
 if __name__ == '__main__':
-    get_CNNVD()
+    #get_CNNVD()
     get_NVD_CVE()
 
     # i=sqlite_db.create_db('test.db')

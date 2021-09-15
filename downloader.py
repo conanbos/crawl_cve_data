@@ -35,7 +35,7 @@ def progressbar(a, b,fn):
     # print( str(a) + '/' + str(b))
 
 
-def download(links,from_n,to_n):
+def download(links,to_n):
     count = 1
     total = len(links)
     if not os.path.exists('data'):
@@ -43,6 +43,7 @@ def download(links,from_n,to_n):
 
 
     for link in links:
+        from_n=link.rfind('/',0,len(link))+1
 
         if to_n==0:
             local = os.path.join('data', link[from_n:])
@@ -51,6 +52,10 @@ def download(links,from_n,to_n):
             local = os.path.join('data', link[from_n:to_n])
             progressbar(count, total, link[from_n:to_n])
         count = count + 1
+        if os.path.exists(local):
+            print('\n')
+            continue
+
         urllib.request.urlretrieve(link, local)
         try:
             thread1 = myThread(1, local)
