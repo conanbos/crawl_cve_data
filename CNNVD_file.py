@@ -16,10 +16,10 @@ def get_internallinks(bs, includeUrl):
         # print(link.attrs['onclick'])
         if link.attrs['onclick'] is not None:
             if link.attrs['onclick'] not in internallinks:
-                if (link.attrs['onclick'].startswith('/')):
-                    internallinks.append(includeUrl + combine_link(link.attrs['onclick']))
-                else:
-                    internallinks.append(combine_link(link.attrs['onclick']))
+                # if (link.attrs['onclick'].startswith('/')):
+                internallinks.append(includeUrl + combine_link(link.attrs['onclick']))
+                # else:
+                #     internallinks.append(combine_link(link.attrs['onclick']))
     return internallinks
 
 
