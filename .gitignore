@@ -5,7 +5,7 @@ __pycache__/
 
 #project pycharm
 .idea/
-
+*.db
 
 # C extensions
 *.so
