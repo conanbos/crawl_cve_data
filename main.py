@@ -75,6 +75,6 @@ def get_NVD_CVE():
 if __name__ == '__main__':
     i=sqlite_db.create_db('test.db')
     if i==1:
-        print('created databas')
+        print('created database ok')
 
 
