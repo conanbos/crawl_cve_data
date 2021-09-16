@@ -15,7 +15,9 @@ import NVD_CVE_file
 import CNNVD_file
 import downloader
 import time
-import sqlite_db
+
+import prbar
+
 
 sites = ''
 url = ''
@@ -47,8 +49,8 @@ def get_CNNVD():
     sites = 'http://www.cnnvd.org.cn'
     url = sites + '/web/xxk/xmlDown.tag'
     urls = ''
-    i=0
-    while len(urls) <= 0 and i<=3:
+    i = 0
+    while len(urls) <= 0 and i <= 3:
         i += 1
         bs = create_bs(url)
         urls = CNNVD_file.get_internallinks(bs, sites)
@@ -68,18 +70,18 @@ def get_NVD_CVE():
     sites = 'https://nvd.nist.gov'
     url = sites + '/vuln/data-feeds'
     urls = ''
-    i=0
-    while len(urls) <= 0 and i<=3:
-        i+=1
+    i = 0
+    while len(urls) <= 0 and i <= 3:
+        i += 1
         bs = create_bs(url)
-        urls = NVD_CVE_file.get_internallinks(bs, sites,'nvdjson')  #选择下载什么类型文件
+        urls = NVD_CVE_file.get_internallinks(bs, sites, 'all')  #选择下载什么类型文件
         print("\r try connecting to site "+str(i))
-        if i>1:print(bs)
+        if i > 1 : print(bs)
         time.sleep(0.5)
 
     print('open site: ' + sites + ' successfully')
     print('Start downloading vulnerability library....')
-    downloader.download(urls,0)
+    downloader.download(urls, 0)
     time.sleep(0.2)
     print('All files get done')
 
@@ -88,8 +90,8 @@ if __name__ == '__main__':
     get_CNNVD()
     get_NVD_CVE()
 
-    # i=sqlite_db.create_db('test.db')
-    # if i==1:
-    #     print('created database ok!')
+
+
+
 
 

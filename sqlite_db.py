@@ -1,11 +1,15 @@
 import sqlite3
+import sqlite_db
 
 class VData:
 
-    def __init__(self,db_name):
-        self.dbname=db_name
+    def __init__(self, db_name):
+        self.dbname = db_name
+        i = sqlite_db.create_db(self.dbname)
+        if i == 1:
+            print('created database file!')
 
-    def create_db(self, db_name):
+    def create_db(self):
         con = sqlite3.connect(self.dbname)
         cur=con.cursor()
 
@@ -23,7 +27,7 @@ class VData:
         con.close()
         return 1
 
-    def insert_data(db,table_name):
+    def insert_data(db, table_name):
         return 1
 
 
