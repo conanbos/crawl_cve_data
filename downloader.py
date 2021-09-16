@@ -3,6 +3,7 @@
 import os
 import threading
 import time
+import prgressbar
 
 
 
@@ -34,6 +35,7 @@ def progressbar(a, b,fn):
             print('#', end='')
 
     print('%.2f%%' % per,str(a) + '/' + str(b), end=' ')
+    prgressbar.pbar(b)
     # print( str(a) + '/' + str(b))
 
 
