@@ -48,7 +48,8 @@ def get_CNNVD():
     url = sites + '/web/xxk/xmlDown.tag'
     urls = ''
     i=0
-    while len(urls) <= 0:
+    while len(urls) <= 0 and i<=3:
+        i += 1
         bs = create_bs(url)
         urls = CNNVD_file.get_internallinks(bs, sites)
         print("\r try connecting to site " + str(i))
@@ -71,7 +72,7 @@ def get_NVD_CVE():
     while len(urls) <= 0 and i<=3:
         i+=1
         bs = create_bs(url)
-        urls = NVD_CVE_file.get_internallinks(bs, sites,'nvdjson')
+        urls = NVD_CVE_file.get_internallinks(bs, sites,'nvdjson')  #选择下载什么类型文件
         print("\r try connecting to site "+str(i))
         if i>1:print(bs)
         time.sleep(0.5)
@@ -84,7 +85,7 @@ def get_NVD_CVE():
 
 
 if __name__ == '__main__':
-    #get_CNNVD()
+    get_CNNVD()
     get_NVD_CVE()
 
     # i=sqlite_db.create_db('test.db')

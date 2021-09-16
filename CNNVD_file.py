@@ -1,6 +1,6 @@
 import re
 import main
-
+from urllib.parse import urlparse
 
 
 def combine_link(origin_link):
@@ -10,7 +10,7 @@ def combine_link(origin_link):
 
 
 def get_internallinks(bs, includeUrl):
-    includeUrl = '{}://{}'.format(main.urlparse(includeUrl).scheme, main.urlparse(includeUrl).netloc)
+    includeUrl = '{}://{}'.format(urlparse(includeUrl).scheme, urlparse(includeUrl).netloc)
     internallinks = []
     for link in bs.find_all('a', onclick=re.compile('/attached.*.zip')):
         # print(link.attrs['onclick'])
