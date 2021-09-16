@@ -4,6 +4,8 @@ import os
 import threading
 import time
 
+
+
 import unzip_file
 import urllib.request
 
@@ -31,7 +33,7 @@ def progressbar(a, b,fn):
         for y in range(1,3):
             print('#', end='')
 
-    print('%.2f%%' % per,str(a) + '/' + str(b), end='    ')
+    print('%.2f%%' % per,str(a) + '/' + str(b), end=' ')
     # print( str(a) + '/' + str(b))
 
 
@@ -52,8 +54,8 @@ def download(links,to_n):
             local = os.path.join('data', link[from_n:to_n])
             progressbar(count, total, link[from_n:to_n])
         count = count + 1
-        if os.path.exists(local):
-            print('\n')
+        if os.path.exists(local):  #过滤掉已经下载的
+            print('\r')
             continue
 
         urllib.request.urlretrieve(link, local)
