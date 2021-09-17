@@ -90,8 +90,16 @@ def get_NVD_CVE(): #下载NVD CVE数据库，可选类型
 if __name__ == '__main__':
     # get_CNNVD()
     # get_NVD_CVE()
-    # jd=json_data.jsonfile('data/nvdcve-1.1-2020.json')
-    jd = json_data.jsonfile('data/nvdcve-1.1-2010.json')
+    jd=json_data.jsonfile('data/nvdcve-1.1-2020.json')
+    # jd = json_data.jsonfile('data/nvdcve-1.1-2020.json')
+    # jd = json_data.jsonfile('data/nvdcve-1.1-2019.json')
+    # jd = json_data.jsonfile('data/nvdcve-1.1-2018.json')
+    # jd = json_data.jsonfile('data/nvdcve-1.1-2017.json')
+    # jd = json_data.jsonfile('data/nvdcve-1.1-2016.json')
+    # jd = json_data.jsonfile('data/nvdcve-1.1-2015.json')
+    # jd = json_data.jsonfile('data/nvdcve-1.1-2014.json')
+    # jd = json_data.jsonfile('data/nvdcve-1.1-2013.json')
+    # jd = json_data.jsonfile('data/nvdcve-1.1-2010.json')
 
 
 
