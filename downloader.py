@@ -58,25 +58,24 @@ def download(links,to_n):
         from_n=link.rfind('/',0,len(link))+1
 
         if to_n==0:
-            local = os.path.join('data', link[from_n:])
             filen = link[from_n:]
         else:
-            local = os.path.join('data', link[from_n:to_n])
             filen = link[from_n:to_n]
 
-
+        local = os.path.join('data', filen) #取得文件全路径
         if os.path.exists(local):  #过滤掉已经下载的
             continue
 
-        urllib.request.urlretrieve(link, local)
+        urllib.request.urlretrieve(link, local) #请求下载文件
         try:
-            thread1 = myThread(1, local)
+            thread1 = myThread(1, local) #创建线程进行下载后的解压
             thread1.start()
-            progress.msg =filen
         except:
-            print("Error: unzip thread failed",local)
+            print("Error: unzip thread failed")
 
+        progress.msg =filen
         progress.current += 1
-        progress()
-    progress.done()
+        progress() #更新进度条
+
+    progress.done() #结束进度条
     return 1

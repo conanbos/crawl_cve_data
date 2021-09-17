@@ -25,7 +25,7 @@ class ProgressBar(object):
     DEFAULT = 'Progress: %(bar)s %(percent)3d%%'
     FULL = '%(bar)s %(current)d/%(total)d (%(percent)3d%%) remaining:%(remaining)d %(msg)s '
 
-    def __init__(self, total, width=40, fmt=DEFAULT, msg='file:', symbol='*',
+    def __init__(self, total, width=40, fmt=DEFAULT, msg='', symbol='=',
                  output=sys.stderr):
         assert len(symbol) == 1
 

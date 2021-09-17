@@ -32,3 +32,73 @@ class VData:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# create table cnnvd
+# (
+#     id               integer not null,
+#     dbtype              text,
+#     datatype      text,
+#     dataformat    text,
+#     dta
+#     name             text,
+#     vulid            text,
+#     published        text,
+#     modified         text,
+#     source           text,
+#     severity         text,
+#     vultype          text,
+#     thrtype          text,
+#     vulconfigurationTid text,
+#     vulconfoperator text,
+#     vulswlistTid        text,
+#     vuldescript      text,
+#     vulexploit       text,
+#     cveid            text,
+#     bugtrq           text,
+#     vulsolution      text,
+#     refsTid             text
+# );
+#
+# create table vulconfsw
+# (
+#     vulid text,
+#     software text,
+#     soperator text
+# );
+#
+# create table vulconfterrace
+# (
+#   vulid text,
+#   terrace text,
+#   toperator text
+# );
+#
+# create table refs
+# (
+#   refsid    text,
+#   source    text,
+#   name  text,
+#   url   text,
+#     tag text
+# );
+#
+# create table swlist
+# (
+#   vulswid   text,
+#   product   text
+# );
