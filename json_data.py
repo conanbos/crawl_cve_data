@@ -2,7 +2,10 @@ import json
 
 dic=[]
 
+counter=0
+
 def read_data(json_data):
+    global counter
     if isinstance(json_data, dict):
         for key in json_data.keys():
             key_value= json_data.get(key)
@@ -13,8 +16,10 @@ def read_data(json_data):
                     # if not (key in dic): dic.append(str(key))#print('now is key:', str(key))
                     read_data(key_array)
             else:
-                print(str(key), '==',str(key_value))
+                # print(str(key), '==',str(key_value))
                 if not (key in dic): dic.append(str(key))
+                counter+=1
+
 
 
 
@@ -24,6 +29,8 @@ class jsonfile(object):
     def __init__(self, fn, datatype='NVD', database='test', action='read'):
         self.file = fn
         self.read_file(self.file)
+        global counter
+        counter=0
 
 
 
@@ -33,10 +40,11 @@ class jsonfile(object):
             read_data(data)
             f.close()
 
-        with open(fn+'_list.txt','w') as fl:
-            for i in range(len(dic)):
-                fl.write(dic[i]+'\n')
-            fl.close()
-            print('file:'+fn+'_list.txt')
+        # with open(fn+'_list.txt','w') as fl:
+        #     for i in range(len(dic)):
+        #         fl.write(dic[i]+'\n')
+        #     fl.close()
+        #     print('file:'+fn+'_list.txt')
+        print('%(fn)s:total items %(counter)d:' % {'fn':fn,'counter':counter})
 
 
