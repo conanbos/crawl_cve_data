@@ -5,30 +5,36 @@ class VData:
 
     def __init__(self, db_name):
         self.dbname = db_name
-        i = sqlite_db.create_db(self.dbname)
-        if i == 1:
-            print('created database file!')
 
-    def create_db(self):
-        con = sqlite3.connect(self.dbname)
-        cur=con.cursor()
+        self.con = sqlite3.connect(self.dbname)
+        self.cur = con.cursor()
+        # print('created database file!')
 
-        # Create table
-        cur.execute('''CREATE TABLE stocks
-                       (date text, trans text, symbol text, qty real, price real)''')
 
-        # Insert a row of data
-        cur.execute("INSERT INTO stocks VALUES ('2006-01-05','BUY','RHAT',100,35.14)")
+    def create_db(self,table):
+        self.cur.execute('''CREATE TABLE stocks
+        #                (date text, trans text, symbol text, qty real, price real)''')
 
-        # Save (commit) the changes
-        con.commit()
+        #
 
-        # We can also close the connection if we are done with it.
-        con.close()
-        return 1
+        #
+        # # Insert a row of data
+        # cur.execute("INSERT INTO stocks VALUES ('2006-01-05','BUY','RHAT',100,35.14)")
+        #
+        # # Save (commit) the changes
+        # con.commit()
+        #
+        # # We can also close the connection if we are done with it.
+        # con.close()
+        # return 1
 
-    def insert_data(db, table_name):
-        return 1
+    def insert_data(self, table_name, data):
+        sql="INSERT INTO "+table_name+" VALUES ( "+data +" )"
+        self.cur.execute(sql)
+        self.con.commit()
+
+    def disconnect(self):
+        self.con.close()
 
 
 
