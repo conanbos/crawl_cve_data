@@ -91,7 +91,7 @@ if __name__ == '__main__':
     # get_CNNVD()
     # get_NVD_CVE()
     # jd = json_data.jsonfile('data/nvdcve-1.1-2021.json')
-     jd = json_data.jsonfile('data/nvdcve-1.1-2020.json')
+    jd = json_data.jsonfile('data/nvdcve-1.1-2020.json')
     # jd = json_data.jsonfile('data/nvdcve-1.1-2019.json')
     # jd = json_data.jsonfile('data/nvdcve-1.1-2018.json')
     # jd = json_data.jsonfile('data/nvdcve-1.1-2017.json')

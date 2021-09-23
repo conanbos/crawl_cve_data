@@ -2,17 +2,20 @@ import sqlite3
 import sqlite_db
 
 class VData:
+    cur=''
+    con=''
+
 
     def __init__(self, db_name):
-        self.dbname = db_name
-
-        self.con = sqlite3.connect(self.dbname)
-        self.cur = con.cursor()
+        global cur
+        global con
+        con = sqlite3.connect(db_name)
+        cur = con.cursor()
         # print('created database file!')
 
 
-    def create_db(self,table):
-        self.cur.execute('''CREATE TABLE stocks
+    def create_db(table):
+        cur.execute('''CREATE TABLE stocks
         #                (date text, trans text, symbol text, qty real, price real)''')
 
         #
@@ -28,13 +31,13 @@ class VData:
         # con.close()
         # return 1
 
-    def insert_data(self, table_name, data):
+    def insert_data(table_name, data):
         sql="INSERT INTO "+table_name+" VALUES ( "+data +" )"
-        self.cur.execute(sql)
-        self.con.commit()
+        cur.execute(sql)
+        con.commit()
 
     def disconnect(self):
-        self.con.close()
+        con.close()
 
 
 
