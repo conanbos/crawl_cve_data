@@ -33,7 +33,7 @@ class VData:
 
     def insert_data(sql,vars):
         cur.execute(sql,vars)
-        con.commit()
+
 
     def disconnect():
         con.commit()

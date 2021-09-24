@@ -55,7 +55,7 @@ def get_cve(cve_item):
 
 def get_items(items):
     global cve
-    count=0
+    count=1
     for i in range(len(items)):
         item_value = items[i]
         if isinstance(item_value,dict):
