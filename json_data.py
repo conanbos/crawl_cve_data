@@ -1,5 +1,7 @@
 import json
 import sqlite_db
+import pandas as pd
+# from pandas import DataFrame
 
 
 dic=[]
@@ -59,7 +61,7 @@ def read_data(jsondata_array):
             if isinstance(key_value, dict):
                 read_data(key_value)
             elif isinstance(key_value, list):
-                if not (key in dic): dic.append(str(key))
+                # if not (key in dic): dic.append(str(key))
                 for key_array in key_value:
                     # if not (key in dic): dic.append(str(key))#print('now is key:', str(key))
                     read_data(key_array)
@@ -92,8 +94,13 @@ class jsonfile(object):
     def __init__(self, fn, datatype='NVD', database='test', action='read'):
         self.file = fn
         self.read_file(self.file)
+        # self.read_json(self.file)
         global counter
         counter=0
+
+    def read_json(self,fn):
+        dataset=self.read_file(fn)
+        siblings = pd.DataFrame()
 
 
 
@@ -104,7 +111,14 @@ class jsonfile(object):
             data = json.load(f)
             read_data(data)
             f.close()
-            CVE_num=nvd_value[-3]
+
+        # dataset=pd.read_json(fn)
+        # ds=pd.DataFrame(data['CVE_Items'],columns=['lang'])
+        # print(ds)
+        # return data
+
+
+            # CVE_num=nvd_value[-3]
             # for i in range(len(nvd_key)):
             #     sql = "'"+nvd_value[i]+"',"
             #     sqls +=sql
@@ -118,14 +132,14 @@ class jsonfile(object):
 
 
 
+        # with open(fn+'_list.txt','w') as fl:
+        #     for i in range(len(dic)):
+        #         fl.write(dic[i]+'\n')
+        #     fl.close()
+        #     print('file:'+fn+'_list.txt')
+        # print('%(fn)s:total items %(counter)d:' % {'fn':fn,'counter':counter})
 
-        with open(fn+'22222222_test.json','w') as fl:
-            asjson= json.dumps(jsonss)
-            # for i in range(len(dic)):
-            fl.write(asjson+'\n')
-            fl.close()
-            print('file:'+fn+'_list.json')
-        print('%(fn)s:total items %(counter)d:' % {'fn':fn,'counter':counter})
+
 
 
 

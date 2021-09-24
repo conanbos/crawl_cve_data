@@ -1,5 +1,5 @@
 import sqlite3
-import sqlite_db
+
 
 class VData:
     cur=''
@@ -31,12 +31,12 @@ class VData:
         # con.close()
         # return 1
 
-    def insert_data(table_name, data):
-        sql="INSERT INTO "+table_name+" VALUES ( "+data +" )"
-        cur.execute(sql)
+    def insert_data(sql,vars):
+        cur.execute(sql,vars)
         con.commit()
 
-    def disconnect(self):
+    def disconnect():
+        con.commit()
         con.close()
 
 

@@ -1,7 +1,4 @@
-# This is a sample Python script.
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
 
 
 # from urllib.request import urlopen
@@ -15,15 +12,15 @@ import NVD_CVE_file
 import CNNVD_file
 import downloader
 import time
-import json_data
-
+# import json_data
+import dataset_json
 
 sites = ''
 url = ''
 
 
 
-def create_bs(url): #进行网站连接，反回页面数据后处理
+def create_bs(url):
     session = requests.Session()
     headers = {'User-Agent':'Mozilla/5.0 (Machintosh; Intel Mac OS X 10_9_5)'
                'AppleWebKit 537.36 (KHTML, like Gecko) Chrome',
@@ -43,7 +40,7 @@ def create_bs(url): #进行网站连接，反回页面数据后处理
 
 
 
-def get_CNNVD():  #下载CNNVD数据库
+def get_CNNVD():
     # create beautifulsoupe and open site
     sites = 'http://www.cnnvd.org.cn'
     url = sites + '/web/xxk/xmlDown.tag'
@@ -64,7 +61,7 @@ def get_CNNVD():  #下载CNNVD数据库
     print('all files get done')
 
 
-def get_NVD_CVE(): #下载NVD CVE数据库，可选类型
+def get_NVD_CVE():
     # open NVD CVE
     sites = 'https://nvd.nist.gov'
     url = sites + '/vuln/data-feeds'
@@ -73,7 +70,7 @@ def get_NVD_CVE(): #下载NVD CVE数据库，可选类型
     while len(urls) <= 0 and i <= 3:
         i += 1
         bs = create_bs(url)
-        urls = NVD_CVE_file.get_internallinks(bs, sites, 'all')  #选择下载什么类型文件
+        urls = NVD_CVE_file.get_internallinks(bs, sites, 'all')
         print("\r try connecting to site "+str(i))
         if i > 1 : print(bs)
         time.sleep(0.5)
@@ -88,10 +85,12 @@ def get_NVD_CVE(): #下载NVD CVE数据库，可选类型
 
 
 if __name__ == '__main__':
+    # jd=dataset_json.read_file('data/nvd_dataset.json')
+    jd=dataset_json.read_file('data/nvdcve-1.1-2020.json')
     # get_CNNVD()
     # get_NVD_CVE()
     # jd = json_data.jsonfile('data/nvdcve-1.1-2021.json')
-    jd = json_data.jsonfile('data/nvdcve-1.1-2020.json')
+    # jd = json_data.jsonfile('data/nvdcve-1.1-2020.json')
     # jd = json_data.jsonfile('data/nvdcve-1.1-2019.json')
     # jd = json_data.jsonfile('data/nvdcve-1.1-2018.json')
     # jd = json_data.jsonfile('data/nvdcve-1.1-2017.json')
