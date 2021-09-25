@@ -8,6 +8,11 @@ head=[]
 cve=[]
 conf=[]
 cve_id=""
+cve_sum="0"
+
+
+def get_conf(cve_item):
+    pass
 
 def get_cve(cve_item):
     global cve
@@ -25,13 +30,31 @@ def get_cve(cve_item):
                 cve.append(keymeta_value)
                 if keymeta=="ID":
                     cve_id=keymeta_value
-                    sql = "INSERT INTO nvd VALUES (?,?,?,?,?,?,?,?,?,?)"#合成NVD表所有字段
                     for i in range(5):
                         cveids.append(cve_id)
-                    var_sql=head+cveids
-                    db.VData.insert_data(sql, var_sql)
+                    var_meta=head+cveids
+                    sql = "INSERT INTO nvd VALUES (?,?,?,?,?,?,?,?,?,?)"  # 合成NVD表所有字段
+                    db.VData.insert_data(sql, var_meta)
         elif key=="problemtype":
-            pass
+            pt=[]
+            pt.clear()
+            key_temp_value = key_value.get("problemtype_data")
+            if isinstance(key_temp_value,list):
+                for i in range(len(key_temp_value)):
+                    key_temps_value=key_temp_value[i]
+                    if isinstance(key_temps_value,dict):
+                        for keytemp in key_temps_value.keys():
+                            if keytemp=="description":
+                                keytemp_value=key_temps_value.get(keytemp)
+
+                                for i in range(len(keytemp_value)):
+                                    for keylang in keytemp_value[i].keys():
+                                        pt.append(keytemp_value[i].get(keylang))
+                                    sql = "INSERT INTO problemtype VALUES (?,?,?)"
+                                    pt.insert(0,cve_id)
+                                    db.VData.insert_data(sql, pt)
+                                    pt.clear()
+
         elif key=="references":
             pass
         elif key=="description":
@@ -43,15 +66,6 @@ def get_cve(cve_item):
     db.VData.insert_data(sql, cve)
 
 
-
-
-
-
-        #
-        # if isinstance(key_value,list):
-        #     pass
-        # else:
-        #     cve.append(key_value)
 
 def get_items(items):
     global cve
@@ -73,7 +87,7 @@ def get_items(items):
                     pass
                 else:
                     pass
-        print('\r'+str(count)+'/18241',end="")
+        print('\r'+str(count)+'/'+cve_sum,end="")
         count +=1
 
 
@@ -83,12 +97,13 @@ def get_items(items):
 
 def get_head(jsondata):
     global head
-    global keys
+    global cve_sum
     head=[]
-    keys=[]
+    cve_sum="0"
     for key in jsondata.keys():
         key_value = jsondata.get(key)
-        keys.append(key)
+        # keys.append(key)
+        if key=="CVE_data_numberOfCVEs":cve_sum=key_value
         if not isinstance(key_value,list):
             head.append(key_value)
     db.VData("NVD.db")

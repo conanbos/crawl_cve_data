@@ -34,6 +34,9 @@ class VData:
     def insert_data(sql,vars):
         cur.execute(sql,vars)
 
+    def commit_data():
+        con.commit()
+
 
     def disconnect():
         con.commit()
