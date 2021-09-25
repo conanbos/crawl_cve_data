@@ -24,6 +24,7 @@ def get_cve(cve_item):
 
     for key in cve_item.keys():
         key_value=cve_item.get(key)
+
         if key=="CVE_data_meta":
             for keymeta in key_value.keys():
                 keymeta_value=key_value.get(keymeta)
@@ -35,6 +36,7 @@ def get_cve(cve_item):
                     var_meta=head+cveids
                     sql = "INSERT INTO nvd VALUES (?,?,?,?,?,?,?,?,?,?)"  # 合成NVD表所有字段
                     db.VData.insert_data(sql, var_meta)
+            if len(key_value)==1:cve.append("") #防止有缺少字段的情况
         elif key=="problemtype":
             pt=[]
             pt.clear()
@@ -56,14 +58,46 @@ def get_cve(cve_item):
                                     pt.clear()
 
         elif key=="references":
-            pass
+            refs=[]
+            key_ref_value = key_value.get("reference_data")
+            for i in range(len(key_ref_value)):
+                ref_value=key_ref_value[i]
+                for ref_key in ref_value.keys():
+                    if ref_key=="tags":
+                        tags=''
+                        if not (len(ref_value.get(ref_key)) == 0):
+                            ref_tags=ref_value.get(ref_key)
+                            for x in range(len(ref_tags)):
+                                if x==0:
+                                    tags += ref_tags[x]
+                                else:
+                                    tags  = tags+','+ref_tags[x]
+                        refs.append(tags)
+                    else:
+                        refs.append(ref_value.get(ref_key))
+                refs.insert(0,cve_id)
+                sql = "INSERT INTO refs VALUES (?,?,?,?,?)"
+                db.VData.insert_data(sql, refs)
+                refs.clear()
+
         elif key=="description":
-            pass
+            des = []
+            des.clear()
+            key_temp_value = key_value.get("description_data")
+            if isinstance(key_temp_value, list):
+                for i in range(len(key_temp_value)):
+                    key_des_value = key_temp_value[i]
+                    if isinstance(key_des_value, dict):
+                        for keydes in key_des_value.keys():
+                            des.append(key_des_value.get(keydes))
+                        sql = "INSERT INTO description VALUES (?,?,?)"
+                        des.insert(0, cve_id)
+                        db.VData.insert_data(sql, des)
+                        des.clear()
         else:
             cve.append(key_value)
 
-    sql = "INSERT INTO cve VALUES (?,?,?,?,?)"#合成CVE表所有字段
-    db.VData.insert_data(sql, cve)
+
 
 
 
@@ -82,13 +116,17 @@ def get_items(items):
                 elif key=="impact":
                     pass
                 elif key=="publishedDate":
-                    pass
+                    cve.append(key_value)
                 elif key == "lastModifiedDate":
-                    pass
+                    cve.append(key_value)
                 else:
                     pass
+            sql = "INSERT INTO cve VALUES (?,?,?,?,?,?,?)"  # 合成CVE表所有字段
+            db.VData.insert_data(sql, cve)
         print('\r'+str(count)+'/'+cve_sum,end="")
         count +=1
+        # if count==6104:
+        #     print("6104")
 
 
 

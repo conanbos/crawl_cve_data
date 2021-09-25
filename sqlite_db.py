@@ -35,7 +35,11 @@ class VData:
         cur.execute(sql,vars)
 
     def commit_data():
-        con.commit()
+        try:
+            con.commit()
+        except:
+            print("error",vars)
+
 
 
     def disconnect():
