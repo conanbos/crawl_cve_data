@@ -12,7 +12,110 @@ cve_sum="0"
 
 
 def get_conf(cve_item):
-    pass
+    global conf
+    global cve_id
+    conf.clear()
+    confs=[]
+    confs_t = []
+    conf.append(cve_id)
+    op=""
+    for key in cve_item.keys():
+        key_value=cve_item.get(key)
+        if key=="CVE_data_version":
+            conf.append(key_value)
+        elif key=="nodes":
+            confs_t.clear()
+            confs_t.append(0)
+            for i in range(len(key_value)):
+                key_conf_value=key_value[i]
+                for key_conf in key_conf_value.keys():
+                    if key_conf=="operator":
+                        op=key_conf_value.get(key_conf)
+                        if len(confs_t)<2:
+                            confs_t.append(op)
+                        else:confs_t[1]=op
+                    elif key_conf=="children":#完成二级节点
+                        conf_child_value=key_conf_value.get(key_conf)
+                        confs_t[0]=1
+                        for x in range(len(conf_child_value)):
+                            c_match_value=conf_child_value[x]
+                            for c_match_key in c_match_value:
+                                if c_match_key == "operator": confs_t[1]=c_match_value.get(c_match_key)
+                                if c_match_key=="cpe_match":
+                                    cc_match_value=c_match_value.get(c_match_key)
+                                    for w in range(len(cc_match_value)):
+                                        arr_match_value=cc_match_value[w]
+                                        name = ""
+                                        vstart = ""
+                                        vend = ""
+                                        vse=""
+                                        vee=""
+                                        for arr_match_key in arr_match_value:
+                                            if arr_match_key=="cpe_name":
+                                                arr_match_name=arr_match_value.get(arr_match_key)
+                                                for y in range(len(arr_match_name)):
+                                                    if y==0:
+                                                        name=c_match_name[y]
+                                                    else:
+                                                        name=name+","+arr_match_name[y]
+                                            elif arr_match_key=="versionStartIncluding":
+                                                vstart=arr_match_value.get(arr_match_key)
+                                            elif arr_match_key=="versionEndIncluding":
+                                                vend=arr_match_value.get(arr_match_key)
+                                            elif arr_match_key=="versionEndExcluding":
+                                                vee=arr_match_value.get(arr_match_key)
+                                            elif arr_match_key == "versionStartExcluding":
+                                                vse = arr_match_value.get(arr_match_key)
+                                            else:
+                                                confs.append(arr_match_value.get(arr_match_key))
+                                        confs.append(name)
+                                        confs.append(vstart)
+                                        confs.append(vend)
+                                        confs.append(vse)
+                                        confs.append(vee)
+                                        sql="INSERT INTO configration VALUES (?,?,?,?,?,?,?,?,?,?,?)"
+                                        db.VData.insert_data(sql, conf+confs_t+confs)
+                                        confs.clear()
+                    elif key_conf=="cpe_match":#完成一级节点
+                        confs_t[1] = op #  恢复一级节点operator
+                        confs_t[0] = 0
+                        cpe_value=key_conf_value.get(key_conf)
+                        for x in range(len(cpe_value)):
+                            match_value=cpe_value[x]
+                            name = ""
+                            vstart = ""
+                            vend = ""
+                            vse = ""
+                            vee = ""
+                            for key_match in match_value.keys():
+                                if key_match=="cpe_name":
+                                    match_name=match_value.get(key_match)
+                                    for y in range(len(match_name)):
+                                        if y==0:
+                                            name=match_name[y]
+                                        else:
+                                            name=name+","+match_name[y]
+                                elif key_match == "versionStartIncluding":
+                                    vstart = match_value.get(key_match)
+                                elif key_match == "versionEndIncluding":
+                                    vend = match_value.get(key_match)
+                                elif key_match == "versionStartExcluding":
+                                    vse = match_value.get(key_match)
+                                elif key_match == "versionEndExcluding":
+                                    vee = match_value.get(key_match)
+                                else:
+                                    confs.append(match_value.get(key_match))
+                            confs.append(name)
+                            confs.append(vstart)
+                            confs.append(vend)
+                            confs.append(vse)
+                            confs.append(vee)
+                            sql="INSERT INTO configration VALUES (?,?,?,?,?,?,?,?,?,?,?)"
+                            db.VData.insert_data(sql, conf+confs_t+confs)
+                            confs.clear()
+
+
+
 
 def get_cve(cve_item):
     global cve
@@ -24,7 +127,6 @@ def get_cve(cve_item):
 
     for key in cve_item.keys():
         key_value=cve_item.get(key)
-
         if key=="CVE_data_meta":
             for keymeta in key_value.keys():
                 keymeta_value=key_value.get(keymeta)
@@ -100,7 +202,6 @@ def get_cve(cve_item):
 
 
 
-
 def get_items(items):
     global cve
     count=1
@@ -112,7 +213,7 @@ def get_items(items):
                 if key=="cve":
                     get_cve(key_value)
                 elif key=="configurations":
-                    pass
+                    get_conf(key_value)
                 elif key=="impact":
                     pass
                 elif key=="publishedDate":
@@ -125,7 +226,7 @@ def get_items(items):
             db.VData.insert_data(sql, cve)
         print('\r'+str(count)+'/'+cve_sum,end="")
         count +=1
-        # if count==6104:
+        # if count==9:
         #     print("6104")
 
 
