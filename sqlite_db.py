@@ -15,6 +15,7 @@ class VData:
 
 
     def create_db(table):
+        global cur
         cur.execute('''CREATE TABLE stocks
         #                (date text, trans text, symbol text, qty real, price real)''')
 
@@ -32,19 +33,22 @@ class VData:
         # return 1
 
     def insert_data(sql,vars):
+        global cur
         cur.execute(sql,vars)
 
     def commit_data():
+        global con
         try:
             con.commit()
         except:
             print("error",vars)
-
-
+        return 0
 
     def disconnect():
+        global con
         con.commit()
         con.close()
+        return 0
 
 
 

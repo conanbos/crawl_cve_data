@@ -70,7 +70,7 @@ def get_NVD_CVE():
     while len(urls) <= 0 and i <= 3:
         i += 1
         bs = create_bs(url)
-        urls = NVD_CVE_file.get_internallinks(bs, sites, 'all')
+        urls = NVD_CVE_file.get_internallinks(bs, sites, 'nvdjson')
         print("\r try connecting to site "+str(i))
         if i > 1 : print(bs)
         time.sleep(0.5)
@@ -79,16 +79,9 @@ def get_NVD_CVE():
     print('Start downloading vulnerability library....')
     downloader.download(urls, 0)
     time.sleep(0.2)
-    print('All files get done')
+    print('Download has completed')
 
-
-
-
-if __name__ == '__main__':
-    # jd=dataset_json.read_file('data/nvd_dataset.json')
-    # jd=dataset_json.read_file('data/nvdcve-1.1-2021.json')
-    # get_CNNVD()
-    # get_NVD_CVE()
+def NVD_DB():
     jd = dataset_json.read_file('data/nvdcve-1.1-2021.json')
     jd = dataset_json.read_file('data/nvdcve-1.1-2020.json')
     jd = dataset_json.read_file('data/nvdcve-1.1-2019.json')
@@ -109,6 +102,16 @@ if __name__ == '__main__':
     jd = dataset_json.read_file('data/nvdcve-1.1-2004.json')
     jd = dataset_json.read_file('data/nvdcve-1.1-2003.json')
     jd = dataset_json.read_file('data/nvdcve-1.1-2002.json')
+    # print("Vulnerability database (NVD) has been created")
+
+
+if __name__ == '__main__':
+    # jd=dataset_json.read_file('data/nvd_dataset.json')
+    #  jd=dataset_json.read_file('data/nvdcve-1.1-2021.json')
+    # get_CNNVD()
+    get_NVD_CVE()
+    NVD_DB()
+
 
 
 

@@ -17,5 +17,9 @@ from description;
 delete
 from configration;
 
+delete
+from impact;
+
 vacuum;
+
 

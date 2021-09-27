@@ -1,14 +1,165 @@
 ﻿
 import json
 import sqlite_db as db
+import prbar
 
+prbar.ProgressBar(0, fmt=prbar.ProgressBar.DB)
 
 keys=[]
 head=[]
 cve=[]
 conf=[]
 cve_id=""
-cve_sum="0"
+cve_sum=0
+
+def get_impact(cve_item):
+    global cve_id
+    impatc=[]
+    v3_version=""
+    v3_vectorString=""
+    v3_attackVector=""
+    v3_attackComplexity=""
+    v3_privilegesRequired=""
+    v3_userInteraction=""
+    v3_scope=""
+    v3_confidentialityImpact=""
+    v3_integrityImpact=""
+    v3_availabilityImpact=""
+    v3_baseScore=""
+    v3_baseSeverity=""
+    v3_exploitabilityScore=""
+    v3_impactScore=""
+    v2_version=""
+    v2_vectorString=""
+    v2_accessVector=""
+    v2_accessComplexity=""
+    v2_authentication=""
+    v2_confidentialityImpact=""
+    v2_integrityImpact=""
+    v2_availabilityImpact=""
+    v2_baseScore=""
+    v2_severity=""
+    v2_exploitabilityScore=""
+    v2_impactScore=""
+    v2_acInsufInfo=""
+    v2_obtainAllPrivilege=""
+    v2_obtainUserPrivilege=""
+    v2_obtainOtherPrivilege=""
+    v2_userInteractionRequired=""
+
+    for key in cve_item.keys():
+        key_value = cve_item.get(key)
+        if key=="baseMetricV3":
+            # kv_value = key_value.get(key)
+            for key_v3 in key_value.keys():
+                k3_value=key_value.get(key_v3)
+                if key_v3=="cvssV3":
+                    for k3_cvss in k3_value.keys():
+                        k3_cvss_value=k3_value.get(k3_cvss)
+                        if k3_cvss=="version":
+                            v3_version = k3_cvss_value
+                        if k3_cvss == "vectorString":
+                            v3_vectorString = k3_cvss_value
+                        if k3_cvss == "attackVector":
+                            v3_attackVector = k3_cvss_value
+                        if k3_cvss == "attackComplexity":
+                            v3_attackComplexity = k3_cvss_value
+                        if k3_cvss == "privilegesRequired":
+                            v3_privilegesRequired = k3_cvss_value
+                        if k3_cvss == "userInteraction":
+                            v3_userInteraction = k3_cvss_value
+                        if k3_cvss == "scope":
+                            v3_scope = k3_cvss_value
+                        if k3_cvss == "confidentialityImpact":
+                            v3_confidentialityImpact = k3_cvss_value
+                        if k3_cvss == "integrityImpact":
+                            v3_integrityImpact = k3_cvss_value
+                        if k3_cvss == "availabilityImpact":
+                            v3_availabilityImpact = k3_cvss_value
+                        if k3_cvss == "baseScore":
+                            v3_baseScore = k3_cvss_value
+                        if k3_cvss == "baseSeverity":
+                            v3_baseSeverity = k3_cvss_value
+                if key_v3 == "exploitabilityScore":
+                    v3_exploitabilityScore = k3_value
+                if key_v3 == "impactScore":
+                    v3_impactScore = k3_value
+        if key=="baseMetricV2":
+            for key_v2 in key_value.keys():
+                k2_value = key_value.get(key_v2)
+                if key_v2 == "cvssV2":
+                    for k2_cvss in k2_value.keys():
+                        k2_cvss_value = k2_value.get(k2_cvss)
+                        if k2_cvss == "version":
+                            v2_version = k2_cvss_value
+                        if k2_cvss == "vectorString":
+                            v2_vectorString=k2_cvss_value
+                        if k2_cvss == "accessVector":
+                            v2_accessVector=k2_cvss_value
+                        if k2_cvss == "accessComplexity":
+                            v2_accessComplexity=k2_cvss_value
+                        if k2_cvss == "authentication":
+                            v2_authentication=k2_cvss_value
+                        if k2_cvss == "confidentialityImpact":
+                            v2_confidentialityImpact=k2_cvss_value
+                        if k2_cvss == "integrityImpact":
+                            v2_integrityImpact=k2_cvss_value
+                        if k2_cvss == "availabilityImpact":
+                            v2_availabilityImpact=k2_cvss_value
+                        if k2_cvss == "baseScore":
+                            v2_baseScore=k2_cvss_value
+                if key_v2 == "severity":
+                    v2_severity=k2_value
+                if key_v2 == "exploitabilityScore":
+                    v2_exploitabilityScore=k2_value
+                if key_v2 == "impactScore":
+                    v2_impactScore=k2_value
+                if key_v2 == "acInsufInfo":
+                    v2_acInsufInfo=k2_value
+                if key_v2 == "obtainAllPrivilege":
+                    v2_obtainAllPrivilege=k2_value
+                if key_v2 == "obtainUserPrivilege":
+                    v2_obtainUserPrivilege=k2_value
+                if key_v2 == "obtainOtherPrivilege":
+                    v2_obtainOtherPrivilege=k2_value
+                if key_v2 == "userInteractionRequired":
+                    v2_userInteractionRequired=k2_value
+
+    impatc.append(cve_id)
+    impatc.append(v3_version)
+    impatc.append(v3_vectorString)
+    impatc.append(v3_attackVector)
+    impatc.append(v3_attackComplexity)
+    impatc.append(v3_privilegesRequired)
+    impatc.append(v3_userInteraction)
+    impatc.append(v3_scope)
+    impatc.append(v3_confidentialityImpact)
+    impatc.append(v3_integrityImpact)
+    impatc.append(v3_availabilityImpact)
+    impatc.append(v3_baseScore)
+    impatc.append(v3_baseSeverity)
+    impatc.append(v3_exploitabilityScore)
+    impatc.append(v3_impactScore)
+    impatc.append(v2_version)
+    impatc.append(v2_vectorString)
+    impatc.append(v2_accessVector)
+    impatc.append(v2_accessComplexity)
+    impatc.append(v2_authentication)
+    impatc.append(v2_confidentialityImpact)
+    impatc.append(v2_integrityImpact)
+    impatc.append(v2_availabilityImpact)
+    impatc.append(v2_baseScore)
+    impatc.append(v2_severity)
+    impatc.append(v2_exploitabilityScore)
+    impatc.append(v2_impactScore)
+    impatc.append(v2_acInsufInfo)
+    impatc.append(v2_obtainAllPrivilege)
+    impatc.append(v2_obtainUserPrivilege)
+    impatc.append(v2_obtainOtherPrivilege)
+    impatc.append(v2_userInteractionRequired)
+    sql = "INSERT INTO impact VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+    db.VData.insert_data(sql, impatc)
+    impatc.clear()
 
 
 def get_conf(cve_item):
@@ -115,8 +266,6 @@ def get_conf(cve_item):
                             confs.clear()
 
 
-
-
 def get_cve(cve_item):
     global cve
     global cve_id
@@ -200,11 +349,10 @@ def get_cve(cve_item):
             cve.append(key_value)
 
 
-
-
 def get_items(items):
     global cve
-    count=1
+    global progress
+    # count = 1
     for i in range(len(items)):
         item_value = items[i]
         if isinstance(item_value,dict):
@@ -215,7 +363,7 @@ def get_items(items):
                 elif key=="configurations":
                     get_conf(key_value)
                 elif key=="impact":
-                    pass
+                    get_impact(key_value)
                 elif key=="publishedDate":
                     cve.append(key_value)
                 elif key == "lastModifiedDate":
@@ -224,13 +372,10 @@ def get_items(items):
                     pass
             sql = "INSERT INTO cve VALUES (?,?,?,?,?,?,?)"  # 合成CVE表所有字段
             db.VData.insert_data(sql, cve)
-        print('\r'+str(count)+'/'+cve_sum,end="")
-        count +=1
-        # if count==9:
-        #     print("6104")
-
-
-
+        # print('\r'+str(count)+'/'+cve_sum,end="")
+        # count +=1
+        progress.current +=1
+        progress()  # 更新进度条
 
 
 
@@ -238,15 +383,15 @@ def get_head(jsondata):
     global head
     global cve_sum
     head=[]
-    cve_sum="0"
+    cve_sum=0
     for key in jsondata.keys():
         key_value = jsondata.get(key)
         # keys.append(key)
-        if key=="CVE_data_numberOfCVEs":cve_sum=key_value
+        if key=="CVE_data_numberOfCVEs":cve_sum = key_value
         if not isinstance(key_value,list):
             head.append(key_value)
+    progress.total = int(cve_sum)
     db.VData("NVD.db")
-
     # db.VData.disconnect(db)
 
     get_items(key_value)
@@ -278,8 +423,10 @@ def read_data(jsondata_array):
 
 def read_file(fn):
     global head
-    sqls=''
-    CVE_num=''
+    global progress
+    progress = prbar.ProgressBar(0, fmt=prbar.ProgressBar.DB)
+    progress.msg = fn
     with open(fn,'r') as f:
         data = json.load(f)
-        data=get_head(data)
+        get_head(data)
+    progress.done()  # 结束进度条

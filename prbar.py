@@ -1,20 +1,3 @@
-# import time
-# from tqdm import tqdm
-#
-# from tqdm import trange
-#
-# class my_pbar:
-#     def __init__(self, total, msg):
-#         self.total = total
-#         self.message = msg
-#         self.pbar = tqdm(self.total)
-#         # with tqdm(total=self.total) as pbar:
-#         # pbar.update(1)
-#
-#     def pbar_update(self,num):
-#         self.pbar.update(num)
-#
-
 
 from __future__ import print_function
 import sys
@@ -23,9 +6,10 @@ import re
 
 class ProgressBar(object):
     DEFAULT = 'Progress: %(bar)s %(percent)3d%%'
-    FULL = '%(bar)s %(current)d/%(total)d (%(percent)3d%%) remaining:%(remaining)d %(msg)s '
+    FULL = 'Downloading: %(bar)s %(current)d/%(total)d (%(percent)3d%%) remaining:%(remaining)d %(msg)s '
+    DB = 'Data processing: %(bar)s %(current)d/%(total)d  %(percent)3d%% on table %(msg)s'
 
-    def __init__(self, total, width=40, fmt=DEFAULT, msg='', symbol='=',
+    def __init__(self, total, width=60, fmt=DEFAULT, msg='', symbol='=',
                  output=sys.stderr):
         assert len(symbol) == 1
 
