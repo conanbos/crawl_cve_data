@@ -102,7 +102,7 @@ def NVD_DB():
     jd = dataset_json.read_file('data/nvdcve-1.1-2004.json')
     jd = dataset_json.read_file('data/nvdcve-1.1-2003.json')
     jd = dataset_json.read_file('data/nvdcve-1.1-2002.json')
-    # print("Vulnerability database (NVD) has been created")
+    print("Vulnerability database (NVD) has been created")
 
 
 if __name__ == '__main__':
