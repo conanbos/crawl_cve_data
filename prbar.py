@@ -9,7 +9,7 @@ class ProgressBar(object):
     FULL = 'Downloading: %(bar)s %(current)d/%(total)d (%(percent)3d%%) remaining:%(remaining)d %(msg)s '
     DB = 'Data processing: %(bar)s %(current)d/%(total)d  %(percent)3d%% on table %(msg)s'
 
-    def __init__(self, total, width=60, fmt=DEFAULT, msg='', symbol='=',
+    def __init__(self, total, width=40, fmt=DEFAULT, msg='', symbol='=',
                  output=sys.stderr):
         assert len(symbol) == 1
 
