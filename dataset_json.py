@@ -224,7 +224,7 @@ def get_conf(cve_item):
                                         confs.append(vend)
                                         confs.append(vse)
                                         confs.append(vee)
-                                        sql="INSERT INTO configration VALUES (?,?,?,?,?,?,?,?,?,?,?)"
+                                        sql="INSERT INTO configuration VALUES (?,?,?,?,?,?,?,?,?,?,?)"
                                         db.VData.insert_data(sql, conf+confs_t+confs)
                                         confs.clear()
                     elif key_conf=="cpe_match":#完成一级节点
@@ -261,7 +261,7 @@ def get_conf(cve_item):
                             confs.append(vend)
                             confs.append(vse)
                             confs.append(vee)
-                            sql="INSERT INTO configration VALUES (?,?,?,?,?,?,?,?,?,?,?)"
+                            sql="INSERT INTO configuration VALUES (?,?,?,?,?,?,?,?,?,?,?)"
                             db.VData.insert_data(sql, conf+confs_t+confs)
                             confs.clear()
 

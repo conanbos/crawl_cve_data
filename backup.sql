@@ -15,7 +15,7 @@ delete
 from description;
 
 delete
-from configration;
+from configuration;
 
 delete
 from impact;
