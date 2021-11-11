@@ -12,6 +12,10 @@ conf=[]
 cve_id=""
 cve_sum=0
 
+def get_cpe(cpe_str):
+    cpe_chain=cpe_str.split(":")[1:13]#去除第一个"cpe"，保证长度在12
+    return cpe_chain
+
 def get_impact(cve_item):
     global cve_id
     impatc=[]
@@ -209,6 +213,10 @@ def get_conf(cve_item):
                                                         name=c_match_name[y]
                                                     else:
                                                         name=name+","+arr_match_name[y]
+                                            elif arr_match_key=="cpe23Uri":#处理cpe uri 信息
+                                                cpeUri=arr_match_value.get(arr_match_key)
+                                                confs.append(cpeUri)
+                                                cpeInfo=get_cpe(cpeUri)
                                             elif arr_match_key=="versionStartIncluding":
                                                 vstart=arr_match_value.get(arr_match_key)
                                             elif arr_match_key=="versionEndIncluding":
@@ -224,8 +232,8 @@ def get_conf(cve_item):
                                         confs.append(vend)
                                         confs.append(vse)
                                         confs.append(vee)
-                                        sql="INSERT INTO configuration VALUES (?,?,?,?,?,?,?,?,?,?,?)"
-                                        db.VData.insert_data(sql, conf+confs_t+confs)
+                                        sql="INSERT INTO configuration VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+                                        db.VData.insert_data(sql, conf+confs_t+confs+cpeInfo)
                                         confs.clear()
                     elif key_conf=="cpe_match":#完成一级节点
                         confs_t[1] = op #  恢复一级节点operator
@@ -246,6 +254,10 @@ def get_conf(cve_item):
                                             name=match_name[y]
                                         else:
                                             name=name+","+match_name[y]
+                                elif key_match == "cpe23Uri":  # 处理cpe uri 信息
+                                    cpeUri = match_value.get(key_match)
+                                    confs.append(cpeUri)
+                                    cpeInfo = get_cpe(cpeUri)
                                 elif key_match == "versionStartIncluding":
                                     vstart = match_value.get(key_match)
                                 elif key_match == "versionEndIncluding":
@@ -261,8 +273,8 @@ def get_conf(cve_item):
                             confs.append(vend)
                             confs.append(vse)
                             confs.append(vee)
-                            sql="INSERT INTO configuration VALUES (?,?,?,?,?,?,?,?,?,?,?)"
-                            db.VData.insert_data(sql, conf+confs_t+confs)
+                            sql="INSERT INTO configuration VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+                            db.VData.insert_data(sql, conf+confs_t+confs+cpeInfo)
                             confs.clear()
 
 

@@ -58,16 +58,6 @@ class VData:
 
 
 
-
-
-
-
-
-
-
-
-
-
 # create table cnnvd
 # (
 #     id               integer not null,

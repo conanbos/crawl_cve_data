@@ -1,5 +1,5 @@
 delete
-from "NVD";
+from NVD;
 
 delete
 from cve;

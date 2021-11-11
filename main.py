@@ -82,6 +82,8 @@ def get_NVD_CVE():
     print('Download has completed')
 
 def NVD_DB():
+    jd = dataset_json.read_file('data/nvdcve-1.1-modified')
+    jd = dataset_json.read_file('data/nvdcve-1.1-recent')
     jd = dataset_json.read_file('data/nvdcve-1.1-2021.json')
     jd = dataset_json.read_file('data/nvdcve-1.1-2020.json')
     jd = dataset_json.read_file('data/nvdcve-1.1-2019.json')
