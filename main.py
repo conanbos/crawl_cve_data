@@ -115,6 +115,10 @@ if __name__ == '__main__':
     # get_CNNVD()
     # get_NVD_CVE()
     NVD_DB()
+
+
+
+    #以下测试数据库使用
     # mysql_db.VData()
     # sql = "INSERT INTO nvd_cve VALUES (%s,%s,%s,%s,%s,%s,%s)"  # 合成CVE表所有字段
     # cve=("a","dfd","4.0","cve-d343rt","dfsdf@dfd.com","2021","2021-12-01")
