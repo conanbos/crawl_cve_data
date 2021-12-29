@@ -1,6 +1,6 @@
 ﻿
 import json
-import sqlite_db as db
+import mysql_db as db
 import prbar
 
 prbar.ProgressBar(0, fmt=prbar.ProgressBar.DB)
@@ -161,7 +161,8 @@ def get_impact(cve_item):
     impatc.append(v2_obtainUserPrivilege)
     impatc.append(v2_obtainOtherPrivilege)
     impatc.append(v2_userInteractionRequired)
-    sql = "INSERT INTO impact VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+    sql = "INSERT INTO nvd_impact VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    #sql = "INSERT INTO nvd_impact VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
     db.VData.insert_data(sql, impatc)
     impatc.clear()
 
@@ -232,7 +233,8 @@ def get_conf(cve_item):
                                         confs.append(vend)
                                         confs.append(vse)
                                         confs.append(vee)
-                                        sql="INSERT INTO configuration VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+                                        sql = "INSERT INTO nvd_configuration VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+                                        #sql = "INSERT INTO nvd_configuration VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
                                         db.VData.insert_data(sql, conf+confs_t+confs+cpeInfo)
                                         confs.clear()
                     elif key_conf=="cpe_match":#完成一级节点
@@ -273,7 +275,8 @@ def get_conf(cve_item):
                             confs.append(vend)
                             confs.append(vse)
                             confs.append(vee)
-                            sql="INSERT INTO configuration VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+                            sql = "INSERT INTO nvd_configuration VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+                            #sql = "INSERT INTO nvd_configuration VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
                             db.VData.insert_data(sql, conf+confs_t+confs+cpeInfo)
                             confs.clear()
 
@@ -297,7 +300,8 @@ def get_cve(cve_item):
                     for i in range(5):
                         cveids.append(cve_id)
                     var_meta=head+cveids
-                    sql = "INSERT INTO nvd VALUES (?,?,?,?,?,?,?,?,?,?)"  # 合成NVD表所有字段
+                    sql = "INSERT INTO nvd VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"  # 合成NVD表所有字段
+                    #sql = "INSERT INTO nvd VALUES (?,?,?,?,?,?,?,?,?,?)"
                     db.VData.insert_data(sql, var_meta)
             if len(key_value)==1:cve.append("") #防止有缺少字段的情况
         elif key=="problemtype":
@@ -315,7 +319,8 @@ def get_cve(cve_item):
                                 for i in range(len(keytemp_value)):
                                     for keylang in keytemp_value[i].keys():
                                         pt.append(keytemp_value[i].get(keylang))
-                                    sql = "INSERT INTO problemtype VALUES (?,?,?)"
+                                    sql = "INSERT INTO nvd_problemtype VALUES (%s,%s,%s)"
+                                    #sql = "INSERT INTO nvd_problemtype VALUES (?,?,?)"
                                     pt.insert(0,cve_id)
                                     db.VData.insert_data(sql, pt)
                                     pt.clear()
@@ -339,7 +344,8 @@ def get_cve(cve_item):
                     else:
                         refs.append(ref_value.get(ref_key))
                 refs.insert(0,cve_id)
-                sql = "INSERT INTO refs VALUES (?,?,?,?,?)"
+                sql = "INSERT INTO nvd_refs VALUES (%s,%s,%s,%s,%s)"
+                #sql = "INSERT INTO nvd_refs VALUES (?,?,?,?,?)"
                 db.VData.insert_data(sql, refs)
                 refs.clear()
 
@@ -353,7 +359,8 @@ def get_cve(cve_item):
                     if isinstance(key_des_value, dict):
                         for keydes in key_des_value.keys():
                             des.append(key_des_value.get(keydes))
-                        sql = "INSERT INTO description VALUES (?,?,?)"
+                        sql = "INSERT INTO nvd_description VALUES (%s,%s,%s)"
+                        #sql = "INSERT INTO nvd_description VALUES (?,?,?)"
                         des.insert(0, cve_id)
                         db.VData.insert_data(sql, des)
                         des.clear()
@@ -382,7 +389,8 @@ def get_items(items):
                     cve.append(key_value)
                 else:
                     pass
-            sql = "INSERT INTO cve VALUES (?,?,?,?,?,?,?)"  # 合成CVE表所有字段
+            sql = "INSERT INTO nvd_cve VALUES (%s,%s,%s,%s,%s,%s,%s)"  # 合成CVE表所有字段
+            #sql = "INSERT INTO nvd_cve VALUES (?,?,?,?,?,?,?)"
             db.VData.insert_data(sql, cve)
         # print('\r'+str(count)+'/'+cve_sum,end="")
         # count +=1
@@ -403,7 +411,7 @@ def get_head(jsondata):
         if not isinstance(key_value,list):
             head.append(key_value)
     progress.total = int(cve_sum)
-    db.VData("NVD.db")
+    db.VData()
     # db.VData.disconnect(db)
 
     get_items(key_value)
