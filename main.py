@@ -14,18 +14,19 @@ import downloader
 import time
 # import json_data
 import dataset_json
-import mysql_db
+import sys
 
 
 sites = ''
 url = ''
 
-import sys
 
+#check system encoding
 defaultencoding = 'utf-8'
 if sys.getdefaultencoding() != defaultencoding:
     reload(sys)
     sys.setdefaultencoding(defaultencoding)
+    print ("system encoding changed")
 
 
 def create_bs(url):
@@ -119,7 +120,7 @@ if __name__ == '__main__':
     # jd=dataset_json.read_file('data/nvd_dataset.json')
     #  jd=dataset_json.read_file('data/nvdcve-1.1-2021.json')
     # get_CNNVD()
-    # get_NVD_CVE()
+    get_NVD_CVE()
     NVD_DB()
 
 
