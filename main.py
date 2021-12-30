@@ -20,6 +20,12 @@ import mysql_db
 sites = ''
 url = ''
 
+import sys
+
+defaultencoding = 'utf-8'
+if sys.getdefaultencoding() != defaultencoding:
+    reload(sys)
+    sys.setdefaultencoding(defaultencoding)
 
 
 def create_bs(url):

@@ -85,7 +85,7 @@ CREATE TABLE NVD (
     CVE_data_format       VARCHAR(8),
     CVE_data_version      VARCHAR(8),
     CVE_data_numberOfCVEs VARCHAR(64),
-    CVE_data_timestamp    TIME,
+    CVE_data_timestamp    DATE,
     problemtypeTid        VARCHAR(64),
     referencesTid         VARCHAR(64),
     descriptionTid        VARCHAR(64),
